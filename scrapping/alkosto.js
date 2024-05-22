@@ -13,7 +13,7 @@ export async function searchProducts(itemToSearch) {
   // Wait for search results to load
   await page.waitForLoadState("domcontentloaded");
   await page.waitForSelector(".ais-InfiniteHits-item");
-  // Get names and prices of the first 5 products
+  // Get names, prices, and descriptions of the first 5 products
 
   const productsData = await page.evaluate(() => {
     const items = Array.from(
@@ -34,7 +34,22 @@ export async function searchProducts(itemToSearch) {
             .querySelector("h3.product__item__top__title")
             .getAttribute("data-url")}`
         : "Not available";
-      return { name, sellingPrice, url };
+
+      // Get description
+      const descriptionElement = item.querySelector(
+        ".product__item__information__key-features--list"
+      );
+      const description = descriptionElement
+        ? Array.from(descriptionElement.querySelectorAll("li")).map((li) => {
+            const key = li.querySelector(".item--key").textContent.trim();
+            const value = li.querySelector(".item--value").textContent.trim();
+            return `${key}: ${value}`;
+          })
+        : [];
+      const img_url =
+        item.querySelector("img")?.getAttribute("src") || "Not available";
+      const img = "https://www.alkosto.com/"+img_url
+      return { name, sellingPrice, url, img, description };
     });
     return productsData;
   });
@@ -44,7 +59,6 @@ export async function searchProducts(itemToSearch) {
 
   return searchTop3(productsData);
 }
-
 
 // Usage
 const itemToSearch = "celulares rojos";
