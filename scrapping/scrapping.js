@@ -33,6 +33,6 @@ export async function run(itemToSearch) {
 }
 
 //use
-//const itemToSearch = "celulares rojos";
-//const allProducts = run(itemToSearch)
-//console.log(allProducts);
+/* const itemToSearch = "celulares rojos";
+const allProducts = await run(itemToSearch);
+console.log(allProducts); */
