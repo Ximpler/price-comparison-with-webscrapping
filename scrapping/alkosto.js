@@ -60,7 +60,3 @@ export async function searchProducts(itemToSearch) {
   return searchTop3(productsData);
 }
 
-// Usage
-const itemToSearch = "celulares rojos";
-const productsData = await searchProducts(itemToSearch);
-console.log(productsData);
