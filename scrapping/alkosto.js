@@ -48,7 +48,7 @@ export async function searchProducts(itemToSearch) {
         : [];
       const img_url =
         item.querySelector("img")?.getAttribute("src") || "Not available";
-      const img = "https://www.alkosto.com/"+img_url
+      const img = "https://www.alkosto.com"+img_url
       return { name, sellingPrice, url, img, description };
     });
     return productsData;

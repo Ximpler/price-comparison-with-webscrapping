@@ -23,16 +23,38 @@ export function searchTop3(products) {
 }
 
 export async function run(itemToSearch) {
-  const olimpica = await spOlimpica(itemToSearch);
-  const falabella = await spFalabella(itemToSearch);
-  const alkosto = await spAlkosto(itemToSearch);
-  const mercado = await spMercado(itemToSearch);
-  const exito = await spExito(itemToSearch);
-  const allProducts = olimpica.concat(falabella, alkosto, mercado, exito);
-  return allProducts;
+  try {
+    const olimpica = await retryOnFailure(() => spOlimpica(itemToSearch), 'olimpica');
+    const falabella = await retryOnFailure(() => spFalabella(itemToSearch), 'falabella');
+    const alkosto = await retryOnFailure(() => spAlkosto(itemToSearch), 'alkosto');
+    const mercado = await retryOnFailure(() => spMercado(itemToSearch), 'mercado');
+    const exito = await retryOnFailure(() => spExito(itemToSearch), 'exito');
+    
+    const allProducts = olimpica.concat(falabella, alkosto, mercado, exito);
+    return allProducts;
+  } catch (error) {
+    console.error('Error en la función run:', error);
+    return [];
+  }
 }
 
+async function retryOnFailure(func, websiteName, maxRetries = 3, delay = 10) {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      let results = await func();
+      // Agregar el campo "web" a cada objeto JSON en el resultado
+      results = results.map(product => ({ ...product, web: websiteName }));
+      return results;
+    } catch (error) {
+      console.error(`Error en la función, reintento ${i + 1}/${maxRetries}:`, error);
+      await new Promise(resolve => setTimeout(resolve, delay)); // Espera antes de volver a intentarlo
+    }
+  }
+  throw new Error(`No se pudo completar la función después de ${maxRetries} intentos.`);
+}
+
+
 //use
-/* const itemToSearch = "celulares rojos";
+/*  const itemToSearch = "iphone 15";
 const allProducts = await run(itemToSearch);
-console.log(allProducts); */
+console.log(allProducts);  */
