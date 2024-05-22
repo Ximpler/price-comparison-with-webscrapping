@@ -1,13 +1,42 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="productos-container">
+    <div class="sidebar">
+      <div class="toggle-close-container">
+      </div>
+      <img class="section-button selected" onclick="handleSectionClick('exito')" src="assets/comprobado.png" alt="Éxito" />
+      <img class="section-button" onclick="handleSectionClick('olimpica')" src="assets/Olimpical.png" alt="Olimpica" />
+      <img class="section-button" onclick="handleSectionClick('fallabella')" src="assets/fallabella.png" alt="Falabella" />
+      <img class="section-button" onclick="handleSectionClick('alkosto')" src="assets/alkosto-logo.png" alt="Alkosto" />
+      <img class="section-button" onclick="handleSectionClick('mercadolibre')" src="assets/mercadolibre-logo.png" alt="MercadoLibre" />
+    </div>
+    <div class="main-content">
+      <div class="toggle-container">
+        <button class="toggle-sidebar" onclick="toggleMenu()">&#9776;</button>
+      </div>
+      <hr class="blue-horizontal-line">
+      <div class="section" id="product-section">
+        <!-- Productos se cargarán aquí -->
+      </div>
+    </div>
+    <div class="popup-overlay" onclick="setIsPopupOpen(false)" id="popup-overlay">
+      <div class="product-card-info" onclick="event.stopPropagation()">
+        <img class="product-card-image" id="popup-image" src="" alt="Producto" />
+        <div class="product-info">
+          <span class="product-card-title" id="popup-title"></span>
+          <span class="product-description" id="popup-description"></span>
+        </div>
+        <button class="close-button" onclick="setIsPopupOpen(false)">x</button>
+      </div>
+    </div>
+  </div>
+  <script src="scripts.js"></script>
+</body>
 </html>
