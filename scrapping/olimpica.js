@@ -1,4 +1,5 @@
 import { chromium } from "playwright";
+import { searchTop3 } from "./scrapping.js";
 
 export async function searchProducts(itemToSearch) {
     const browser = await chromium.launch();
@@ -35,10 +36,12 @@ export async function searchProducts(itemToSearch) {
         const sellingPrice = sellingPriceElement
           ? sellingPriceElement.textContent.trim()
           : "Not available";
+        const img = item.querySelector("img").getAttribute("src");
         const url = item.getAttribute("href")
           ? `https://www.olimpica.com${item.getAttribute("href")}`
           : "Not available";
-        return { name, sellingPrice, url };
+        const description = "NA";
+        return { name, sellingPrice, url, img, description };
       });
     
       return productsData;
@@ -51,21 +54,4 @@ export async function searchProducts(itemToSearch) {
     return searchTop3(productsData);
   }
 
-  function searchTop3(products) {
-    // Convert sellingPrice to a number with correct precision and create a new list of products with numeric prices
-    // Convert the price string to a number
-    const parsePrice = (price) => {
-      return parseFloat(
-        price.replace("$", "").replace(/\./g, "").replace(",", ".")
-      );
-    };
-  
-    // Sort products by price
-    const sortedProducts = products.sort(
-      (a, b) => parsePrice(a.sellingPrice) - parsePrice(b.sellingPrice)
-    );
-  
-    // Return the top three cheapest products
-    return sortedProducts.slice(0, 3);
-  }
-  
+

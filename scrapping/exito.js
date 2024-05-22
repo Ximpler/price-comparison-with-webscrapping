@@ -1,4 +1,5 @@
 import { chromium } from "playwright";
+import { searchTop3 } from "./scrapping.js";
 
 export async function searchProducts(itemToSearch) {
   const browser = await chromium.launch();
@@ -11,6 +12,7 @@ export async function searchProducts(itemToSearch) {
   await page.goto(url);
   // Wait for search results to load
   await page.waitForLoadState("domcontentloaded");
+  await page.waitForSelector('article[data-fs-product-card="true"]')
   // Get names and prices of the first 5 products
 
   const productsData = await page.evaluate(() => {
@@ -30,7 +32,9 @@ export async function searchProducts(itemToSearch) {
         : "Not available";
         const url =
         item.querySelector('a[data-testid="product-link"]')?.href || "Not available";
-      return { name, sellingPrice, url };
+        const img = item.querySelector("img")?.getAttribute("src") || "Not available";
+        const description = "NA";
+      return { name, sellingPrice, url, img, description };
     });
     return productsData;
   });
@@ -40,20 +44,3 @@ export async function searchProducts(itemToSearch) {
   return searchTop3(productsData);
 }
 
-function searchTop3(products) {
-  // Convert sellingPrice to a number with correct precision and create a new list of products with numeric prices
-  // Convert the price string to a number
-  const parsePrice = (price) => {
-    return parseFloat(
-      price.replace("$", "").replace(/\./g, "").replace(",", ".")
-    );
-  };
-
-  // Sort products by price
-  const sortedProducts = products.sort(
-    (a, b) => parsePrice(a.sellingPrice) - parsePrice(b.sellingPrice)
-  );
-
-  // Return the top three cheapest products
-  return sortedProducts.slice(0, 3);
-}

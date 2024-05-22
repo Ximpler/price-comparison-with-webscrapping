@@ -1,4 +1,5 @@
 import { chromium } from "playwright";
+import { searchTop3 } from "./scrapping.js";
 
 export async function searchProducts(itemToSearch) {
   const browser = await chromium.launch({});
@@ -15,12 +16,12 @@ export async function searchProducts(itemToSearch) {
   await page.waitForLoadState("domcontentloaded");
 
   // Wait for the search results to be visible
-  await page.waitForSelector(".ui-search-result__wrapper");
+  await page.waitForSelector(".ui-search-result");
 
   // Get names and prices of the first 5 products
   const productsData = await page.evaluate(() => {
     const items = Array.from(
-      document.querySelectorAll(".ui-search-result__wrapper")
+      document.querySelectorAll(".ui-search-result")
     ).slice(0, 5);
     const productsData = items.map((item) => {
       const name = item
@@ -35,7 +36,15 @@ export async function searchProducts(itemToSearch) {
         : "Not available";
       const url =
         item.querySelector("a.ui-search-link")?.href || "Not available";
-      return { name, sellingPrice, url };
+        const img = item.querySelector("img")?.src || "Not available";
+    
+        const descriptionElement = item.querySelector(
+          'span.ui-search-item__variations-text'
+        );
+        const description = descriptionElement
+          ? descriptionElement.textContent.trim()
+          : "NA";
+      return { name, sellingPrice, url , img, description};
     });
     return productsData;
   });
@@ -47,21 +56,4 @@ export async function searchProducts(itemToSearch) {
 }
 
 
-function searchTop3(products) {
-  // Convert sellingPrice to a number with correct precision and create a new list of products with numeric prices
-  // Convert the price string to a number
-  const parsePrice = (price) => {
-    return parseFloat(
-      price.replace("$", "").replace(/\./g, "").replace(",", ".")
-    );
-  };
-
-  // Sort products by price
-  const sortedProducts = products.sort(
-    (a, b) => parsePrice(a.sellingPrice) - parsePrice(b.sellingPrice)
-  );
-
-  // Return the top three cheapest products
-  return sortedProducts.slice(0, 3);
-}
 
