@@ -25,7 +25,7 @@ export async function searchProducts(itemToSearch) {
       const sellingPrice = sellingPriceElement
         ? sellingPriceElement.textContent.trim()
         : "Not available";
-      const img = item.querySelector("img.src");
+      const img = item.querySelector("img").src;
       const description = "NA";
       const url = item.href  || "Not available";
       return { name, sellingPrice, url, img, description };

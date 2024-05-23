@@ -40,10 +40,12 @@ async function retryOnFailure(func, websiteName, maxRetries = 3, delay = 1000) {
 
 app.get('/search', async (req, res) => {
   const query = req.query.q;
+
+  
   if (!query) {
     return res.status(400).send('Query parameter "q" is required');
   }
-
+  console.log(query)
   const results = await run(query);
   res.json(results);
 });

@@ -19,7 +19,7 @@ export async function searchProducts(itemToSearch) {
   
     // Wait for search results to load
     await page.waitForLoadState("domcontentloaded");
-    await page.waitForSelector(".olimpica-dinamic-flags-0-x-currencyContainer")
+    await page.waitForSelector(".vtex-product-summary-2-x-clearLink")
     // Get names and prices of the first 5 products
     const productsData = await page.evaluate(() => {
       const items = Array.from(
