@@ -4,9 +4,12 @@ import { searchProducts as spFalabella } from './scrapping/falabella.js';
 import { searchProducts as spMercado } from './scrapping/mercadolibre.js';
 import { searchProducts as spExito } from './scrapping/exito.js';
 import { searchProducts as spAlkosto } from './scrapping/alkosto.js';
+import cors from 'cors';
+
 
 const app = express();
 const port = 3000;
+app.use(cors());
 
 async function run(itemToSearch) {
   try {
@@ -47,6 +50,7 @@ app.get('/search', async (req, res) => {
   }
   console.log(query)
   const results = await run(query);
+  console.log(results);
   res.json(results);
 });
 
