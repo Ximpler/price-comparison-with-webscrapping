@@ -6,7 +6,7 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   /* Fondo oscuro para oscurecer el contenido detrás del popup */
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -304,4 +304,68 @@
     cursor: pointer;
   }
 
+}
+.product-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
+.product-url {
+  display: block;
+  text-decoration: none;
+  font-size: 16px;
+  color: #1a73e8;
+  margin-top: 10px;
+  text-align: end;
+}
+
+.product-url:hover {
+  text-decoration: underline;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 10px 15px;
+  border: none;
+  background-color: #21305D;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pagination button.active {
+  background-color: #ff4081;
+}
+
+.pagination button:hover {
+  background-color: #575757;
+}
+
+.search-bar-container {
+  display: none; /* Oculto por defecto */
+  margin: 20px 0;
+  text-align: center;
+}
+
+.search-bar-container input {
+  width: 70%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.search-bar-container button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #21305D;
+  color: white;
+  cursor: pointer;
 }

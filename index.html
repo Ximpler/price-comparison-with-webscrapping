@@ -16,14 +16,22 @@
       <img class="section-button" onclick="handleSectionClick('falabella')" src="assets/fallabella.png" alt="Falabella" />
       <img class="section-button" onclick="handleSectionClick('alkosto')" src="assets/alkosto-logo.png" alt="Alkosto" />
       <img class="section-button" onclick="handleSectionClick('mercado')" src="assets/mercadolibre-logo.png" alt="MercadoLibre" />
+      <img class="section-button" onclick="handleSectionClick('todo', 1)" src="assets/todo.png" alt="Todos los productos" />
     </div>
     <div class="main-content">
       <div class="toggle-container">
-        <button class="toggle-sidebar" onclick="toggleMenu()">&#9776;</button>
+        <button class="toggle-sidebar" onclick="toggleSearchBar()">&#128269;</button>
+      </div>
+      <div class="search-bar-container" id="search-bar-container">
+        <input type="text" id="search-input" placeholder="Buscar productos...">
+        <button onclick="searchProducts()">Buscar</button>
       </div>
       <hr class="blue-horizontal-line">
       <div class="section" id="product-section">
         <!-- Productos se cargarán aquí -->
+      </div>
+      <div id="pagination" class="pagination">
+        <!-- Controles de paginación se cargarán aquí -->
       </div>
     </div>
     <div class="popup-overlay" onclick="setIsPopupOpen(false)" id="popup-overlay">
@@ -32,6 +40,9 @@
         <div class="product-info">
           <span class="product-card-title" id="popup-title"></span>
           <span class="product-description" id="popup-description"></span>
+          <br><strong><h4>Precio:</h4></strong>
+          <span class="product-price" id="popup-price"></span>
+          <a id="popup-link" class="product-url" href="#" target="_blank">Ver producto</a>
         </div>
         <button class="close-button" onclick="setIsPopupOpen(false)">x</button>
       </div>
