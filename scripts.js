@@ -115,7 +115,7 @@ async function searchProducts() {
   if (!query) return;
 
   const response = await fetch(`http://localhost:3000/search?q=${query}`);
-  const products = await response.json();
+   products = await response.json();
   console.log("recibido")
   handleSectionClick('todo', 1);  // Load the 'todo' section with new products
 }
