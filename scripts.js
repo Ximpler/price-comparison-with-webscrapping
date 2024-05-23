@@ -1,4 +1,4 @@
-import {itemToSearch} from './scrapping/scrapping.js';
+
 const itemsPerPage = 5;
 let currentPage = 1;
 let products = [];
@@ -110,16 +110,17 @@ function setIsPopupOpen(isOpen) {
   popupOverlay.style.display = isOpen ? 'flex' : 'none';
 }
 
-function searchProducts() {
-  const searchInput = document.getElementById('search-input');
-  const searchValue = searchInput.value.toLowerCase();
+async function searchProducts() {
+  const query = document.getElementById('search-input').value;
+  if (!query) return;
 
-  products= itemToSearch(searchValue);
+  const response = await fetch(`http://localhost:3000/search?q=${query}`);
+  const products = await response.json();
 
+  handleSectionClick('todo', 1);  // Load the 'todo' section with new products
 }
 document.addEventListener('DOMContentLoaded', () => {
   handleSectionClick('exito');
 });
 
-  
 
